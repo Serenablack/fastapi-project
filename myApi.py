@@ -27,14 +27,23 @@ def create_task(task:Task):
 
 @app.get("/tasks/{task_id}",response_model=Task)
 def getOneApi(task_id:UUID):
-fortask in tasks:
-  if task.id==task_id
-  return task
-@app.put("/tasks", response_model=Task)
+  for task in tasks:
+    if task.id==task_id: 
+      return task
 
-def update_task(task:Task)
-tasks.append(task)
-return task
+  return HTTPException(status_code=404, detail="task not found")
+
+@app.put("/tasks/{task_id}", response_model=Task)
+
+def update_task(task_id:UUID, task_update:Task ):
+  for idx, task in enumerate(tasks):
+    if task.id==task_id:
+      updated_task=task.copy(update=task_update.dict(exclude_unset=true))
+      tasks[idx]=updated_task
+      return updated_task
+  return HTTPException(status_code=404, detail="Task not found")
+
+
 
 if __name__=="__main__":
   import uvicorn
