@@ -18,7 +18,6 @@ def getApi():
   return tasks
 
 @app.post("/tasks", response_model=Task)
-
 def create_task(task:Task):
     task.id=uuid4()
     tasks.append(task)
@@ -42,6 +41,11 @@ def update_task(task_id:UUID, task_update:Task ):
       tasks[idx]=updated_task
       return updated_task
   return HTTPException(status_code=404, detail="Task not found")
+
+@app.delete("/tasks/{task_id}")
+def delete_task(task_id:UUID):
+  task.pop
+return tasks
 
 
 
