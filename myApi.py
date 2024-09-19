@@ -44,7 +44,7 @@ def update_task(task_id:UUID, task_update:Task ):
 
 @app.delete("/tasks/{task_id}")
 def delete_task(task_id:UUID):
-  task.pop(task_id)
+  task.pop(task_id) return HTTPException(status_code=404, detail="task not found")
 return tasks
 
 
