@@ -12,6 +12,12 @@ class Task(BaseModel):
   description:Optional[str]=None
   completed:bool=False
 
+class User(BaseModel):
+  user: str
+  email:str|None=None
+  full_name:str|None=None
+  disabled:bool:None=None
+
 tasks=[]
  
 @app.get("/tasks", response_model=List[Task])
