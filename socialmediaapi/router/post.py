@@ -1,6 +1,12 @@
 from fastapi import APIRouter, HTTPException
 
-from socialmediaapi.models.post import Comment, CommentIn, UserPost, UserPostIn
+from socialmediaapi.models.post import (
+    Comment,
+    CommentIn,
+    UserPost,
+    UserPostIn,
+    userPostwithComments,
+)
 
 router = APIRouter()
 
@@ -41,3 +47,11 @@ async def create_comment(comment: CommentIn):
     new_comment = {**data, "id": last_record_id}
     comment_table[last_record_id] = new_comment
     return new_comment
+
+
+@router.get("/post/{id}", response_model=userPostwithComments)
+async def get_post_with_comments(id: int):
+    post = find_post(id)
+    if not post:
+        raise HTTPException(status_code=404, message="Post not found")
+    return {"post": post, "comments": await get_comment_for_post(id)}
